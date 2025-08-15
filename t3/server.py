@@ -4,6 +4,7 @@ from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
 
+
 DB_CONFIG = {
     "host": os.environ.get("MYSQLHOST"),
     "user": os.environ.get("MYSQLUSER"),
@@ -293,4 +294,4 @@ def api_reportes():
     })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
