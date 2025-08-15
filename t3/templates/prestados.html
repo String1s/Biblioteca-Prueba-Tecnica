@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Libros Prestados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>📌 Libros Prestados</h1>
+
+    <form id="formPrestamo">
+        <select id="libro_id" required>
+            <option value="">Seleccione un libro disponible</option>
+        </select>
+
+        <select id="estudiante_id" required>
+            <option value="">Seleccione un estudiante</option>
+        </select>
+
+        <input type="date" id="fecha_prestamo" required>
+        <input type="date" id="fecha_devolucion_estimada" required>
+        <button type="submit">Registrar</button>
+    </form>
+
+    <table id="tablaPrestados" border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Estudiante</th>
+                <th>Fecha Préstamo</th>
+                <th>Fecha Estimada Devolución</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+    const API_PRESTADOS = "/api/prestados";
+    const API_LIBROS = "/libros";
+    const API_ESTUDIANTES = "/api/estudiantes";
+
+    // Cargar libros disponibles en el dropdown
+    async function cargarLibrosDropdown() {
+        const res = await fetch(API_LIBROS);
+        const libros = await res.json();
+        const tbody = document.querySelector("#tablaPrestados tbody");
+        const select = document.getElementById("libro_id");
+        select.innerHTML = '<option value="">Seleccione un libro disponible</option>';
+
+        // Obtener libros ya prestados
+        const resPrestados = await fetch(API_PRESTADOS);
+        const prestados = await resPrestados.json();
+        const idsPrestados = prestados.map(p => p.id_libro || p.libro_id);
+
+        libros.forEach(libro => {
+            if (!idsPrestados.includes(libro.id)) { // Solo libros no prestados
+                const option = document.createElement("option");
+                option.value = libro.id;
+                option.textContent = `${libro.titulo} (ID: ${libro.id})`;
+                select.appendChild(option);
+            }
+        });
+    }
+
+    // Cargar estudiantes en el dropdown
+    async function cargarEstudiantesDropdown() {
+        const res = await fetch(API_ESTUDIANTES);
+        const estudiantes = await res.json();
+        const select = document.getElementById("estudiante_id");
+        select.innerHTML = '<option value="">Seleccione un estudiante</option>';
+        estudiantes.forEach(est => {
+            const option = document.createElement("option");
+            option.value = est.id;
+            option.textContent = `${est.nombre} ${est.apellido} (ID: ${est.id})`;
+            select.appendChild(option);
+        });
+    }
+
+    // Cargar préstamos
+    async function cargarPrestados() {
+        const res = await fetch(API_PRESTADOS);
+        const data = await res.json();
+        const tbody = document.querySelector("#tablaPrestados tbody");
+        tbody.innerHTML = "";
+
+        data.forEach(p => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${p.id}</td>
+                    <td>${p.titulo}</td>
+                    <td>${p.nombre} ${p.apellido}</td>
+                    <td>${p.fecha_prestamo}</td>
+                    <td>${p.fecha_devolucion_estimada}</td>
+                    <td>
+                        <button onclick="eliminarPrestamo(${p.id})">🗑️</button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        // Recargar libros disponibles después de actualizar préstamos
+        cargarLibrosDropdown();
+    }
+
+    document.getElementById("formPrestamo").addEventListener("submit", async e => {
+        e.preventDefault();
+
+        const prestamo = {
+            libro_id: document.getElementById("libro_id").value,
+            estudiante_id: document.getElementById("estudiante_id").value,
+            fecha_prestamo: document.getElementById("fecha_prestamo").value,
+            fecha_devolucion_estimada: document.getElementById("fecha_devolucion_estimada").value
+        };
+
+        const res = await fetch(API_PRESTADOS, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(prestamo)
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+            alert("Préstamo registrado correctamente");
+            e.target.reset();
+            cargarPrestados();
+        } else {
+            alert(`Error: ${result.error}`);
+        }
+    });
+
+    async function eliminarPrestamo(id) {
+        if (!confirm("¿Eliminar este préstamo?")) return;
+        await fetch(`${API_PRESTADOS}/${id}`, { method: "DELETE" });
+        cargarPrestados();
+    }
+
+    // Auto carga
+    cargarLibrosDropdown();
+    cargarEstudiantesDropdown();
+    cargarPrestados();
+    </script>
+</body>
+</html>

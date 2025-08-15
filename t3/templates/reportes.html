@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reportes Biblioteca</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>📊 Reportes Biblioteca</h1>
+    <p>Total de libros: <span id="totalLibros"></span></p>
+    <p>Total de libros prestados: <span id="totalPrestados"></span></p>
+
+    <canvas id="graficoCategorias" width="400" height="200"></canvas>
+
+    <script>
+    fetch("/api/reportes")
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("totalLibros").textContent = data.total_libros;
+            document.getElementById("totalPrestados").textContent = data.total_prestados;
+
+            const ctx = document.getElementById("graficoCategorias");
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.categorias.map(c => c.categoria || "Sin categoría"),
+                    datasets: [{
+                        label: "Libros por Categoría",
+                        data: data.categorias.map(c => c.cantidad),
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                    }]
+                }
+            });
+        });
+    </script>
+</body>
+</html>
