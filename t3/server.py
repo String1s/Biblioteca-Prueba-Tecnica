@@ -1,15 +1,15 @@
-from flask import Flask, jsonify, render_template, request
+import os
 import mysql.connector
+from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
 
 DB_CONFIG = {
-    "host": "localhost",
-    "user": "root",
-    "password": "",
-    "database": "biblioteca"
+    "host": os.environ.get("mysql.railway.internal"),
+    "user": os.environ.get("root"),
+    "password": os.environ.get("oBmoAzyFCkrsKNUwXEQaSBrKtLVmXdAp"),
+    "database": os.environ.get("railway")
 }
-
 # --------------------------
 # MENÚ PRINCIPAL
 # --------------------------

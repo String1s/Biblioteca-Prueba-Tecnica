@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-08-2025 a las 17:37:48
+-- Tiempo de generación: 15-08-2025 a las 23:54:27
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.5
 
@@ -44,7 +44,7 @@ CREATE TABLE `ejemplares` (
 
 INSERT INTO `ejemplares` (`id`, `libro_id`, `estanteria_id`, `tipo`, `estado`, `codigo_interno`, `url_digital`, `formato_digital`) VALUES
 (1, 1, 1, 'fisico', 'prestado', 'ECO-101', NULL, NULL),
-(2, 1, 1, 'fisico', 'disponible', 'ECO-102', NULL, NULL),
+(2, 1, 1, 'fisico', 'prestado', 'ECO-102', NULL, NULL),
 (3, 2, NULL, 'digital', 'prestado', NULL, NULL, NULL),
 (7, 1, NULL, 'fisico', 'prestado', NULL, NULL, NULL),
 (8, 1, NULL, 'fisico', 'disponible', NULL, NULL, NULL),
@@ -54,7 +54,7 @@ INSERT INTO `ejemplares` (`id`, `libro_id`, `estanteria_id`, `tipo`, `estado`, `
 (12, 8, NULL, 'fisico', 'disponible', NULL, NULL, NULL),
 (13, 8, NULL, 'fisico', 'disponible', NULL, NULL, NULL),
 (14, 9, NULL, 'fisico', 'prestado', NULL, NULL, NULL),
-(15, 9, NULL, 'fisico', 'disponible', NULL, NULL, NULL),
+(15, 9, NULL, 'fisico', 'prestado', NULL, NULL, NULL),
 (16, 9, NULL, 'fisico', 'disponible', NULL, NULL, NULL),
 (17, 10, NULL, 'fisico', 'prestado', NULL, NULL, NULL),
 (18, 10, NULL, 'fisico', 'prestado', NULL, NULL, NULL),
@@ -164,7 +164,7 @@ CREATE TABLE `libros` (
 INSERT INTO `libros` (`id`, `isbn`, `titulo`, `anio_publicacion`, `categoria`, `autor`) VALUES
 (1, '978-958-123456-1', 'Introducción a la Economía', 2012, 'Economía', 'Juan Pérez'),
 (2, '978-958-987654-2', 'Ciencia para Todos', 2019, 'Ciencia', 'Laura Ríos'),
-(8, '978-958-111111-1', 'Historia Universal', 2015, 'Historia', 'Luis Torres'),
+(8, '978-958-111111-1', 'Historia Universal', 2017, 'Historia', 'Luis Torres C'),
 (9, '978-958-222222-2', 'Física Cuántica Básica', 2018, 'Ciencia', 'Ana Martínez'),
 (10, '978-958-333333-3', 'Introducción a la Programación', 2022, 'Tecnología', 'Pedro Ramírez'),
 (14, '978-958-333333-12121', 'Etica Moderna', 2025, 'Ciencia', 'Mateo Romero'),
@@ -191,16 +191,14 @@ CREATE TABLE `prestamos` (
 --
 
 INSERT INTO `prestamos` (`id`, `ejemplar_id`, `estudiante_id`, `fecha_prestamo`, `fecha_devolucion_estimada`, `fecha_devolucion_real`) VALUES
-(4, 1, 1, '2025-08-05', '2025-08-05', NULL),
 (8, 7, 2, '2025-08-15', '2025-08-19', NULL),
 (9, 14, 2, '2025-08-15', '2025-08-17', NULL),
-(10, 18, 1, '2025-08-15', '2025-08-18', NULL),
 (11, 10, 1, '2025-08-12', '2025-08-12', NULL),
 (12, 28, 1, '2025-08-15', '2025-08-21', NULL),
 (15, 23, 1, '2025-08-15', '2025-08-18', NULL),
 (16, 56, 2, '2025-08-15', '2025-08-26', NULL),
-(17, 58, 5, '2025-08-15', '2025-08-19', NULL),
-(18, 11, 4, '2025-08-13', '2025-08-19', NULL);
+(18, 11, 4, '2025-08-13', '2025-08-19', NULL),
+(19, 2, 1, '2025-08-15', '2025-08-18', NULL);
 
 --
 -- Disparadores `prestamos`
@@ -292,7 +290,7 @@ ALTER TABLE `prestamos`
 -- AUTO_INCREMENT de la tabla `ejemplares`
 --
 ALTER TABLE `ejemplares`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `estanterias`
@@ -310,7 +308,7 @@ ALTER TABLE `estudiantes`
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `prestamos`
