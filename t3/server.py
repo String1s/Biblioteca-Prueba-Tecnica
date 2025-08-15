@@ -5,10 +5,11 @@ from flask import Flask, jsonify, render_template, request
 app = Flask(__name__)
 
 DB_CONFIG = {
-    "host": os.environ.get("mysql.railway.internal"),
-    "user": os.environ.get("root"),
-    "password": os.environ.get("oBmoAzyFCkrsKNUwXEQaSBrKtLVmXdAp"),
-    "database": os.environ.get("railway")
+    "host": os.environ.get("MYSQLHOST"),
+    "user": os.environ.get("MYSQLUSER"),
+    "password": os.environ.get("MYSQLPASSWORD"),
+    "database": os.environ.get("MYSQLDATABASE"),
+    "port": int(os.environ.get("MYSQLPORT"))
 }
 # --------------------------
 # MENÚ PRINCIPAL
