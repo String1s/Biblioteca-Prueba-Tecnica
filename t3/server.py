@@ -7,13 +7,11 @@ app = Flask(__name__, template_folder="templates", static_folder="static")
 
 def get_db_config():
     return {
-        "host": os.getenv("MYSQL_HOST"),
-        "user": os.getenv("MYSQL_USER"),
-        "password": os.getenv("MYSQL_PASSWORD"),
-        "database": os.getenv("MYSQLDATABASE"),
-        "port": int(os.getenv("MYSQL_PORT")),
-        "ssl_ca": None,          # Puedes agregar el certificado si Railway lo requiere
-        "ssl_disabled": False    # SSL activado para conexiones remotas
+        "host": os.getenv("MYSQL_HOST", "localhost"),
+        "user": os.getenv("MYSQL_USER", "root"),
+        "password": os.getenv("MYSQL_PASSWORD", ""),
+        "database": os.getenv("MYSQL_DB", "railway"),
+        "port": int(os.getenv("MYSQL_PORT", 3306))
     }
 # --------------------------
 # MENÚ PRINCIPAL
