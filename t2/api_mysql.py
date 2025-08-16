@@ -2,7 +2,7 @@ import requests
 import mysql.connector
 import os
 import mysql.connector
-from flask import Flask, jsonify, render_template, request
+
 # ---------------------------
 # Configuración de la base de datos MySQL
 # ---------------------------
