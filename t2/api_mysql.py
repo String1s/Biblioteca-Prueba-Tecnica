@@ -6,20 +6,22 @@ import mysql.connector
 # ---------------------------
 # Configuración de la base de datos MySQL
 # ---------------------------
-DB_CONFIG = {
-    "host": os.getenv("MYSQLHOST", "localhost"),
-    "user": os.getenv("MYSQLUSER", "root"),
-    "password": os.getenv("MYSQLPASSWORD", ""),
-    "database": os.getenv("MYSQLDATABASE", "biblioteca"),
-    "port": int(os.getenv("MYSQLPORT", 3306)),
-    "ssl_disabled": True
-}
+def get_db_config():
+    return {
+        "host": os.getenv("MYSQLHOST"),
+        "user": os.getenv("MYSQLUSER"),
+        "password": os.getenv("MYSQLPASSWORD"),
+        "database": os.getenv("MYSQLDATABASE"),
+        "port": int(os.getenv("MYSQLPORT", 3306)),
+        "ssl_ca": None,          # Puedes agregar el certificado si Railway lo requiere
+        "ssl_disabled": False    # SSL activado para conexiones remotas
+    }
 
 # ---------------------------
 # Conexión a la base de datos
 # ---------------------------
 def conectar_mysql():
-    return mysql.connector.connect(**DB_CONFIG)
+    return mysql.connector.connect(**get_db_config)
 
 # ---------------------------
 # GET: traer datos de API
