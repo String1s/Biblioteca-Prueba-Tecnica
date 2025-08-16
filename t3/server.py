@@ -5,6 +5,9 @@ from flask import Flask, jsonify, render_template, request
 # indica explícitamente dónde están tus carpetas (opcionales pero recomendado)
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
+
+mysql://root:oBmoAzyFCkrsKNUwXEQaSBrKtLVmXdAp@tramway.proxy.rlwy.net:58483/railway
+
 def get_db_config():
     return {
         "host": os.getenv("MYSQL_HOST", "localhost"),
