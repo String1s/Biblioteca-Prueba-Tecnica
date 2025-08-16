@@ -1,14 +1,18 @@
 import requests
 import mysql.connector
-
+import os
+import mysql.connector
+from flask import Flask, jsonify, render_template, request
 # ---------------------------
 # Configuración de la base de datos MySQL
 # ---------------------------
 DB_CONFIG = {
-    "host": "localhost",
-    "user": "root",         
-    "password": "",         
-    "database": "biblioteca" 
+    "host": os.getenv("MYSQLHOST", "localhost"),
+    "user": os.getenv("MYSQLUSER", "root"),
+    "password": os.getenv("MYSQLPASSWORD", ""),
+    "database": os.getenv("MYSQLDATABASE", "biblioteca"),
+    "port": int(os.getenv("MYSQLPORT", 3306)),
+    "ssl_disabled": True
 }
 
 # ---------------------------

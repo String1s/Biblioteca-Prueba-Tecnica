@@ -11,7 +11,8 @@ def get_db_config():
         "user": os.getenv("MYSQLUSER", "root"),
         "password": os.getenv("MYSQLPASSWORD", ""),
         "database": os.getenv("MYSQLDATABASE", "biblioteca"),
-        "port": int(os.getenv("MYSQLPORT", "3306")),
+        "port": int(os.getenv("MYSQLPORT", 3306)),
+        "ssl_disabled": True  # <--- importante para Railway
     }
 # --------------------------
 # MENÚ PRINCIPAL
@@ -296,4 +297,4 @@ def api_reportes():
     })
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
