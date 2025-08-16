@@ -2,16 +2,17 @@ import os
 import mysql.connector
 from flask import Flask, jsonify, render_template, request
 
-app = Flask(__name__)
+# indica explícitamente dónde están tus carpetas (opcionales pero recomendado)
+app = Flask(__name__, template_folder="templates", static_folder="static")
 
-
-DB_CONFIG = {
-    "host": os.environ.get("MYSQLHOST"),
-    "user": os.environ.get("MYSQLUSER"),
-    "password": os.environ.get("MYSQLPASSWORD"),
-    "database": os.environ.get("MYSQLDATABASE"),
-    "port": int(os.environ.get("MYSQLPORT"))
-}
+def get_db_config():
+    return {
+        "host": os.getenv("MYSQLHOST", "localhost"),
+        "user": os.getenv("MYSQLUSER", "root"),
+        "password": os.getenv("MYSQLPASSWORD", ""),
+        "database": os.getenv("MYSQLDATABASE", "biblioteca"),
+        "port": int(os.getenv("MYSQLPORT", "3306")),
+    }
 # --------------------------
 # MENÚ PRINCIPAL
 # --------------------------
@@ -28,7 +29,7 @@ def crud():
 
 @app.route("/libros", methods=["GET", "POST"])
 def libros():
-    conn = mysql.connector.connect(**DB_CONFIG)
+    conn = mysql.connector.connect(**get_db_config())
     cursor = conn.cursor(dictionary=True)
 
     if request.method == "GET":
@@ -97,7 +98,7 @@ def libros():
 # --------------------------
 @app.route("/libros/<int:id>", methods=["PUT", "DELETE"])
 def libro_id(id):
-    conn = mysql.connector.connect(**DB_CONFIG)
+    conn = mysql.connector.connect(**get_db_config())
     cursor = conn.cursor(dictionary=True)
 
     if request.method == "PUT":
@@ -135,7 +136,7 @@ def prestados():
 
 @app.route("/api/prestados", methods=["GET", "POST"])
 def api_prestados():
-    conn = mysql.connector.connect(**DB_CONFIG)
+    conn = mysql.connector.connect(**get_db_config())
     cursor = conn.cursor(dictionary=True)
 
     if request.method == "GET":
@@ -193,7 +194,7 @@ def api_prestados():
 
 @app.route("/api/prestados/<int:id>", methods=["DELETE"])
 def eliminar_prestamo(id):
-    conn = mysql.connector.connect(**DB_CONFIG)
+    conn = mysql.connector.connect(**get_db_config())
     cursor = conn.cursor()
     cursor.execute("DELETE FROM prestamos WHERE id=%s", (id,))
     conn.commit()
@@ -210,7 +211,7 @@ def estudiantes():
 
 @app.route("/api/estudiantes", methods=["GET", "POST"])
 def api_estudiantes():
-    conn = mysql.connector.connect(**DB_CONFIG)
+    conn = mysql.connector.connect(**get_db_config())
     cursor = conn.cursor(dictionary=True)
 
     if request.method == "GET":
@@ -233,7 +234,7 @@ def api_estudiantes():
 
 @app.route("/api/estudiantes/<int:id>", methods=["PUT", "DELETE"])
 def estudiante_id(id):
-    conn = mysql.connector.connect(**DB_CONFIG)
+    conn = mysql.connector.connect(**get_db_config())
     cursor = conn.cursor(dictionary=True)
 
     if request.method == "PUT":
@@ -264,7 +265,8 @@ def reportes():
 
 @app.route("/api/reportes")
 def api_reportes():
-    conn = mysql.connector.connect(**DB_CONFIG)
+    conn = mysql.connector.connect(**get_db_config())
+
     cursor = conn.cursor(dictionary=True)
 
     cursor.execute("SELECT COUNT(*) AS total_libros FROM libros")

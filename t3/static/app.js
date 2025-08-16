@@ -6,6 +6,7 @@ async function crearEjemplarAutomatico(libroId) {
     console.log(`Ejemplar generado automáticamente para libro ${libroId}`);
 }
 
+
 document.getElementById("form-libro")?.addEventListener("submit", async e => {
     e.preventDefault();
     const id = document.getElementById("libro-id").value;
