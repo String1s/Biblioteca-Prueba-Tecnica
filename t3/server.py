@@ -6,16 +6,17 @@ from flask import Flask, jsonify, render_template, request
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
 
-mysql://root:oBmoAzyFCkrsKNUwXEQaSBrKtLVmXdAp@tramway.proxy.rlwy.net:58483/railway
+
 
 def get_db_config():
     return {
-        "host": os.getenv("MYSQL_HOST", "localhost"),
+        "host": os.getenv("MYSQL_HOST", "tramway.proxy.rlwy.net"),
         "user": os.getenv("MYSQL_USER", "root"),
-        "password": os.getenv("MYSQL_PASSWORD", ""),
+        "password": os.getenv("MYSQL_PASSWORD", "oBmoAzyFCkrsKNUwXEQaSBrKtLVmXdAp"),
         "database": os.getenv("MYSQL_DB", "railway"),
-        "port": int(os.getenv("MYSQL_PORT", 3306))
+        "port": int(os.getenv("MYSQL_PORT", 58483))
     }
+    
 # --------------------------
 # MENÚ PRINCIPAL
 # --------------------------
