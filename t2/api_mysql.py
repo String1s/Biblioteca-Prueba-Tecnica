@@ -8,11 +8,11 @@ import mysql.connector
 # ---------------------------
 def get_db_config():
     return {
-        "host": os.getenv("MYSQLHOST"),
-        "user": os.getenv("MYSQLUSER"),
-        "password": os.getenv("MYSQLPASSWORD"),
+        "host": os.getenv("MYSQL_HOST"),
+        "user": os.getenv("MYSQL_USER"),
+        "password": os.getenv("MYSQL_PASSWORD"),
         "database": os.getenv("MYSQLDATABASE"),
-        "port": int(os.getenv("MYSQLPORT", 3306)),
+        "port": int(os.getenv("MYSQL_PORT")),
         "ssl_ca": None,          # Puedes agregar el certificado si Railway lo requiere
         "ssl_disabled": False    # SSL activado para conexiones remotas
     }
