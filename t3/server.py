@@ -134,11 +134,11 @@ def libro_id(id):
 # --------------------------
 # CRUD PRÉSTAMOS
 # --------------------------
-@app.route("/prestados")
+@app.route("/prestamos")
 def prestados():
     return render_template("prestados.html")
 
-@app.route("/api/prestados", methods=["GET", "POST"])
+@app.route("/api/prestamos", methods=["GET", "POST"])
 def api_prestados():
     conn = mysql.connector.connect(**get_db_config())
     cursor = conn.cursor(dictionary=True)
@@ -196,7 +196,7 @@ def api_prestados():
         return jsonify({"mensaje": "Préstamo registrado", "ejemplar_id": ejemplar_id}), 201
 
 
-@app.route("/api/prestados/<int:id>", methods=["DELETE"])
+@app.route("/api/prestamos/<int:id>", methods=["DELETE"])
 def eliminar_prestamo(id):
     conn = mysql.connector.connect(**get_db_config())
     cursor = conn.cursor()
