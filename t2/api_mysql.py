@@ -18,7 +18,7 @@ def get_db_config():
 # Conexión a la base de datos
 # ---------------------------
 def conectar_mysql():
-    return mysql.connector.connect(**get_db_config)
+    return mysql.connector.connect(**get_db_config())
 
 # ---------------------------
 # GET: traer datos de API

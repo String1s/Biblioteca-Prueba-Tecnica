@@ -2,7 +2,7 @@ import os
 import mysql.connector
 from flask import Flask, jsonify, render_template, request
 
-# indica explícitamente dónde están tus carpetas (opcionales pero recomendado)
+
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
 
